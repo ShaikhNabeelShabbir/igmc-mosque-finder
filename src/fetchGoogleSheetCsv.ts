@@ -11,11 +11,14 @@ export async function fetchGoogleSheetCsv(): Promise<string[][]> {
 
     // Parse the CSV data using PapaParse
     const parsedData = Papa.parse(text, {
-      header: false, // Set to true if the first row contains headers
+      header: false, // Set to false to keep all rows as raw data
       skipEmptyLines: true, // Skip empty lines
     });
 
-    return parsedData.data as string[][]; // Return the parsed CSV data as a 2D array
+    // Skip the first row (index 0) to start from the second row
+    const dataWithoutFirstRow = parsedData.data.slice(0, -1);
+
+    return dataWithoutFirstRow as string[][]; // Return the data from the second row onward
   } catch (error) {
     console.error("Error fetching Google Sheets CSV data:", error);
     return [];

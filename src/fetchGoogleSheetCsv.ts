@@ -16,7 +16,7 @@ export async function fetchGoogleSheetCsv(): Promise<string[][]> {
     });
 
     // Skip the first row (index 0) to start from the second row
-    const dataWithoutFirstRow = parsedData.data.slice(0);
+    const dataWithoutFirstRow = parsedData.data.slice(0, -1);
 
     return dataWithoutFirstRow as string[][]; // Return the data from the second row onward
   } catch (error) {

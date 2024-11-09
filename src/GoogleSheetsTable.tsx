@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "./components/ui/table";
+import { SearchIcon } from "lucide-react";
 
 interface Column {
   Header: string;
@@ -52,13 +53,14 @@ const GoogleSheetsTable: React.FC = () => {
     <div>
       <br />
       <br />
-      <div className="mb-4">
+      <div className="mb-4 w-96 flex items-center justify-center relative">
+        <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />{" "}
         <input
           type="text"
-          placeholder="Enter District (Bezirk)	"
+          placeholder="Enter District (Bezirk)"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border p-2 w-full bg-white"
+          className="border p-2 pl-10 w-full bg-white" // Added padding left to avoid overlap with icon
         />
       </div>
 

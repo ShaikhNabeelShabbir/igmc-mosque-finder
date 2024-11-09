@@ -10,6 +10,7 @@ function App() {
           alt="IGMC Logo"
           className="w-100 h-32 border border-red-950"
         />
+        <h1>Welcome to IGMC Mosque Finder</h1>
         <img
           src="/Hamburg-logo.png"
           alt="Hamburg Logo"
@@ -17,7 +18,6 @@ function App() {
         />
       </div>
 
-      <h1>Welcome to IGMC Mosque Finder</h1>
       <p>
         This is a simple application to find mosques in Hamburg. Please note
         that this is a simulation and does not provide real-time updates.

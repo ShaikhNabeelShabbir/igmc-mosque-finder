@@ -1,7 +1,7 @@
 // src/utils/fetchGoogleSheetCsv.ts
 import Papa from "papaparse";
 
-const sheetId = "1Bqmhv_xglKfPMfDGJ1ZA3SVZil-GLyDs4_a6yd41A1U";
+const sheetId = "1uA5DaxkyVlq1HEl2qWOkzxqw6Fsj5jrbOoXkluhWTko";
 const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
 
 export async function fetchGoogleSheetCsv(): Promise<string[][]> {
@@ -16,7 +16,7 @@ export async function fetchGoogleSheetCsv(): Promise<string[][]> {
     });
 
     // Skip the first row (index 0) to start from the second row
-    const dataWithoutFirstRow = parsedData.data.slice(0, -1);
+    const dataWithoutFirstRow = parsedData.data.slice(0);
 
     return dataWithoutFirstRow as string[][]; // Return the data from the second row onward
   } catch (error) {

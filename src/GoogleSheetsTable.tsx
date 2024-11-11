@@ -1,6 +1,5 @@
-// src/components/GoogleSheetsTable.tsx
 import React, { useEffect, useState } from "react";
-import { fetchGoogleSheetCsv } from "./fetchGoogleSheetCsv"; // Adjust path as necessary
+import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import {
   Table,
   TableBody,
@@ -11,77 +10,93 @@ import {
 } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 
-interface Column {
-  Header: string;
-  accessor: string | number;
+interface RowData {
+  serialNumber: string;
+  masjidName: string;
+  district: string;
+  languageOfQutbah: string;
+  completeAddress: string;
+  telefon: string;
+  timingsSummer: string;
+  timingsWinter: string;
+  womensArea: string;
+  lastUpdated: string;
+  iftarProvided: string;
+  taraweehTimings: string;
 }
 
 const GoogleSheetsTable: React.FC = () => {
-  const [data, setData] = useState<string[][]>([]);
+  const [data, setData] = useState<RowData[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredData, setFilteredData] = useState<string[][]>([]);
+  const [filteredData, setFilteredData] = useState<RowData[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const sheetData = await fetchGoogleSheetCsv();
-      setData(sheetData);
-      setFilteredData(sheetData); // Initially set filteredData to all rows
+      try {
+        const sheetData = await fetchGoogleSheetJson();
+        setData(sheetData);
+        setFilteredData(sheetData);
+      } catch (err) {
+        setError("Failed to load data.");
+      }
     };
     fetchData();
   }, []);
 
   useEffect(() => {
-    // Filter rows based on the search term
     if (searchTerm === "") {
       setFilteredData(data);
     } else {
       const filteredRows = data.filter((row) =>
-        row.some((cell) =>
-          cell.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        Object.values(row).some((value) =>
+          value.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
       setFilteredData(filteredRows);
     }
   }, [searchTerm, data]);
 
-  // Define columns based on the first row (headers) if available
-  const columns: Column[] = data[0]
-    ? data[0].map((header, idx) => ({ Header: header, accessor: idx }))
-    : [];
+  const columns =
+    data.length > 0 ? (Object.keys(data[0]) as Array<keyof RowData>) : [];
 
   return (
     <div>
       <br />
       <br />
       <div className="mb-4 w-96 flex items-center justify-center relative">
-        <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />{" "}
+        <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />
         <input
           type="text"
           placeholder="Enter District (Bezirk)"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border p-2 pl-10 w-full bg-white" // Added padding left to avoid overlap with icon
+          className="border p-2 pl-10 w-full bg-white"
         />
       </div>
 
-      <Table className="border-blue-500">
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableHeader key={column.accessor}>{column.Header}</TableHeader>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredData.slice(1).map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <TableCell key={cellIndex}>{cell}</TableCell>
+      {error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        <Table className="border-blue-500">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableHeader key={column}>{column}</TableHeader>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {filteredData.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {columns.map((col) => (
+                  <TableCell key={col}>{row[col]}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

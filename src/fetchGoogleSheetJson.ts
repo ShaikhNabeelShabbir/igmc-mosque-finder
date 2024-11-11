@@ -1,4 +1,3 @@
-// src/utils/fetchGoogleSheetJson.ts
 interface RowData {
   serialNumber: string;
   masjidName: string;
@@ -21,13 +20,23 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
     const response = await fetch(jsonUrl);
     const data = await response.json();
 
-    console.log("Fetched Data:", data); // Log the raw data
-
     const rows: RowData[] = data.map((entry: any) => {
-      console.log("Mapping Entry:", entry); // Log each entry for debugging
+      // Log each field to verify it exists in the data
+      console.log(
+        "Address:",
+        entry["Complete Adress (Location on Google Maps)"]
+      );
+      console.log(
+        "Timings Summer:",
+        entry["Timings Summer March 31 - October 31 Qutba Starts"]
+      );
+      console.log(
+        "Timings Winter:",
+        entry["Timings Winter October 31 - March 31 Qutba Starts"]
+      );
 
       return {
-        serialNumber: entry["Serial Number"] || "", // Fallback if field is missing
+        serialNumber: entry["Serial Number"] || "",
         masjidName: entry["Masjid Name"] || "",
         district: entry["District (Bezirk)"] || "",
         languageOfQutbah: entry["Language of Qutbah"] || "",

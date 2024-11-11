@@ -21,7 +21,7 @@ interface RowData {
 
 const GoogleSheetsTable: React.FC = () => {
   const [data, setData] = useState<RowData[]>([]);
-  const [fullData, setFullData] = useState<RowData[]>([]); // To store full data including the header row
+  const [fullData, setFullData] = useState<RowData[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredData, setFilteredData] = useState<RowData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,9 +31,9 @@ const GoogleSheetsTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const sheetData = await fetchGoogleSheetJson();
-        setFullData(sheetData); // Store the full data
-        setData(sheetData.slice(1)); // Skip the first row (header row) initially
-        setFilteredData(sheetData.slice(1)); // Filtered data without the first row initially
+        setFullData(sheetData);
+        setData(sheetData.slice(1));
+        setFilteredData(sheetData.slice(1));
       } catch (err) {
         setError("Failed to load data. Please try again later.");
       } finally {
@@ -45,7 +45,7 @@ const GoogleSheetsTable: React.FC = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredData(data); // If no search term, show data excluding the first row
+      setFilteredData(data);
     } else {
       const lowerSearchTerm = searchTerm.toLowerCase();
       const filteredRows = fullData.filter((row) =>
@@ -53,7 +53,7 @@ const GoogleSheetsTable: React.FC = () => {
           String(value).toLowerCase().includes(lowerSearchTerm)
         )
       );
-      setFilteredData(filteredRows); // Update filtered data based on search across all rows
+      setFilteredData(filteredRows);
     }
   }, [searchTerm, fullData, data]);
 
@@ -88,7 +88,7 @@ const GoogleSheetsTable: React.FC = () => {
             <thead>
               <tr>
                 {columns.map((col) => (
-                  <th key={col} className="text-left p-2 bg-gray-100">
+                  <th key={col} className="text-left p-2 bg-gray-100 border-r">
                     {col.replace(/([A-Z])/g, " $1").toUpperCase()}
                   </th>
                 ))}
@@ -98,7 +98,9 @@ const GoogleSheetsTable: React.FC = () => {
               {filteredData.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   {columns.map((col) => (
-                    <TableCell key={col}>{row[col]}</TableCell>
+                    <TableCell key={col} className="border-r">
+                      {row[col]}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))}

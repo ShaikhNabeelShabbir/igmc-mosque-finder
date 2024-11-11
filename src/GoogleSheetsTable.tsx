@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 
 interface RowData {
@@ -79,13 +72,6 @@ const GoogleSheetsTable: React.FC = () => {
         <p className="text-red-500">{error}</p>
       ) : (
         <Table className="border-blue-500">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableHeader key={column}>{column}</TableHeader>
-              ))}
-            </TableRow>
-          </TableHead>
           <TableBody>
             {filteredData.map((row, rowIndex) => (
               <TableRow key={rowIndex}>

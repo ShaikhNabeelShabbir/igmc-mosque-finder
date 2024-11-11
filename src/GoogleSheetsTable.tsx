@@ -22,6 +22,7 @@ const GoogleSheetsTable: React.FC = () => {
   const [data, setData] = useState<RowData[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredData, setFilteredData] = useState<RowData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,7 +32,9 @@ const GoogleSheetsTable: React.FC = () => {
         setData(sheetData);
         setFilteredData(sheetData);
       } catch (err) {
-        setError("Failed to load data.");
+        setError("Failed to load data. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -55,9 +58,7 @@ const GoogleSheetsTable: React.FC = () => {
 
   return (
     <div>
-      <br />
-      <br />
-      <div className="mb-4 w-96 flex items-center justify-center relative">
+      <div className="my-8 w-96 mx-auto flex items-center relative">
         <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />
         <input
           type="text"
@@ -68,9 +69,11 @@ const GoogleSheetsTable: React.FC = () => {
         />
       </div>
 
-      {error ? (
+      {loading ? (
+        <p>Loading data...</p>
+      ) : error ? (
         <p className="text-red-500">{error}</p>
-      ) : (
+      ) : filteredData.length > 0 ? (
         <Table className="border-blue-500">
           <TableBody>
             {filteredData.map((row, rowIndex) => (
@@ -82,6 +85,8 @@ const GoogleSheetsTable: React.FC = () => {
             ))}
           </TableBody>
         </Table>
+      ) : (
+        <p>No data found for your search term.</p>
       )}
     </div>
   );

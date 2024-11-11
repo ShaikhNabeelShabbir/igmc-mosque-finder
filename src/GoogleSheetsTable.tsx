@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
-
+import "./index.css";
 interface RowData {
   serialNumber: string;
   masjidName: string;
@@ -70,11 +70,16 @@ const GoogleSheetsTable: React.FC = () => {
       </div>
 
       {loading ? (
-        <p>Loading data...</p>
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : filteredData.length > 0 ? (
-        <Table className="border-blue-500">
+        <Table className="border">
           <TableBody>
             {filteredData.map((row, rowIndex) => (
               <TableRow key={rowIndex}>

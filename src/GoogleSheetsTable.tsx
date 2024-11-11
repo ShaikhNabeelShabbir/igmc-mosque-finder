@@ -21,6 +21,7 @@ interface RowData {
 
 const GoogleSheetsTable: React.FC = () => {
   const [data, setData] = useState<RowData[]>([]);
+  const [fullData, setFullData] = useState<RowData[]>([]); // To store full data including the header row
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredData, setFilteredData] = useState<RowData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,8 +31,9 @@ const GoogleSheetsTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const sheetData = await fetchGoogleSheetJson();
-        setData(sheetData);
-        setFilteredData(sheetData); // Set the initial data to be displayed
+        setFullData(sheetData); // Store the full data
+        setData(sheetData.slice(1)); // Skip the first row (header row) initially
+        setFilteredData(sheetData.slice(1)); // Filtered data without the first row initially
       } catch (err) {
         setError("Failed to load data. Please try again later.");
       } finally {
@@ -43,17 +45,17 @@ const GoogleSheetsTable: React.FC = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredData(data); // If no search term, show all data
+      setFilteredData(data); // If no search term, show data excluding the first row
     } else {
       const lowerSearchTerm = searchTerm.toLowerCase();
-      const filteredRows = data.filter((row) =>
+      const filteredRows = fullData.filter((row) =>
         Object.values(row).some((value) =>
           String(value).toLowerCase().includes(lowerSearchTerm)
         )
       );
-      setFilteredData(filteredRows); // Update filtered data based on search
+      setFilteredData(filteredRows); // Update filtered data based on search across all rows
     }
-  }, [searchTerm, data]);
+  }, [searchTerm, fullData, data]);
 
   const columns =
     data.length > 0 ? (Object.keys(data[0]) as Array<keyof RowData>) : [];

@@ -3,6 +3,7 @@ import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 import "./index.css";
+
 interface RowData {
   serialNumber: string;
   masjidName: string;
@@ -44,9 +45,10 @@ const GoogleSheetsTable: React.FC = () => {
     if (searchTerm === "") {
       setFilteredData(data);
     } else {
+      const lowerSearchTerm = searchTerm.toLowerCase();
       const filteredRows = data.filter((row) =>
         Object.values(row).some((value) =>
-          value.toLowerCase().includes(searchTerm.toLowerCase())
+          String(value).toLowerCase().includes(lowerSearchTerm)
         )
       );
       setFilteredData(filteredRows);
@@ -62,7 +64,7 @@ const GoogleSheetsTable: React.FC = () => {
         <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />
         <input
           type="text"
-          placeholder="Enter District (Bezirk)"
+          placeholder="Search by any field"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border p-2 pl-10 w-full bg-white"
@@ -79,17 +81,28 @@ const GoogleSheetsTable: React.FC = () => {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : filteredData.length > 0 ? (
-        <Table className="border">
-          <TableBody>
-            {filteredData.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
+        <div className="table-wrapper">
+          <Table className="border">
+            <thead>
+              <tr>
                 {columns.map((col) => (
-                  <TableCell key={col}>{row[col]}</TableCell>
+                  <th key={col} className="text-left p-2 bg-gray-100">
+                    {col.replace(/([A-Z])/g, " $1").toUpperCase()}
+                  </th>
                 ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+              </tr>
+            </thead>
+            <TableBody>
+              {filteredData.slice(1).map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {columns.map((col) => (
+                    <TableCell key={col}>{row[col]}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       ) : (
         <p>No data found for your search term.</p>
       )}

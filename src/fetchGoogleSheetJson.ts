@@ -21,20 +21,29 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
     const response = await fetch(jsonUrl);
     const data = await response.json();
 
-    const rows: RowData[] = data.map((entry: any) => ({
-      serialNumber: entry["Serial Number"],
-      masjidName: entry["Masjid Name"],
-      district: entry["District (Bezirk)"],
-      languageOfQutbah: entry["Language of Qutbah"],
-      completeAddress: entry["Complete Adress (Location on Google Maps)"],
-      telefon: entry["Telefon"],
-      timingsSummer: entry["Timings Summer March 31 - October 31 Qutba Starts"],
-      timingsWinter: entry["Timings Winter October 31 - March 31 Qutba Starts"],
-      womensArea: entry["Women's Area Availability"],
-      lastUpdated: entry["Last Updated"],
-      iftarProvided: entry["Iftar provided in Ramadan"],
-      taraweehTimings: entry["Taraweeh Timings"],
-    }));
+    console.log("Fetched Data:", data); // Log the raw data
+
+    const rows: RowData[] = data.map((entry: any) => {
+      console.log("Mapping Entry:", entry); // Log each entry for debugging
+
+      return {
+        serialNumber: entry["Serial Number"] || "", // Fallback if field is missing
+        masjidName: entry["Masjid Name"] || "",
+        district: entry["District (Bezirk)"] || "",
+        languageOfQutbah: entry["Language of Qutbah"] || "",
+        completeAddress:
+          entry["Complete Adress (Location on Google Maps)"] || "",
+        telefon: entry["Telefon"] || "",
+        timingsSummer:
+          entry["Timings Summer March 31 - October 31 Qutba Starts"] || "",
+        timingsWinter:
+          entry["Timings Winter October 31 - March 31 Qutba Starts"] || "",
+        womensArea: entry["Women's Area Availability"] || "",
+        lastUpdated: entry["Last Updated"] || "",
+        iftarProvided: entry["Iftar provided in Ramadan"] || "",
+        taraweehTimings: entry["Taraweeh Timings"] || "",
+      };
+    });
 
     return rows;
   } catch (error) {

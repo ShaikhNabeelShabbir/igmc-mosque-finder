@@ -31,7 +31,7 @@ const GoogleSheetsTable: React.FC = () => {
       try {
         const sheetData = await fetchGoogleSheetJson();
         setData(sheetData);
-        setFilteredData(sheetData);
+        setFilteredData(sheetData); // Set the initial data to be displayed
       } catch (err) {
         setError("Failed to load data. Please try again later.");
       } finally {
@@ -43,7 +43,7 @@ const GoogleSheetsTable: React.FC = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredData(data);
+      setFilteredData(data); // If no search term, show all data
     } else {
       const lowerSearchTerm = searchTerm.toLowerCase();
       const filteredRows = data.filter((row) =>
@@ -51,7 +51,7 @@ const GoogleSheetsTable: React.FC = () => {
           String(value).toLowerCase().includes(lowerSearchTerm)
         )
       );
-      setFilteredData(filteredRows);
+      setFilteredData(filteredRows); // Update filtered data based on search
     }
   }, [searchTerm, data]);
 
@@ -93,7 +93,7 @@ const GoogleSheetsTable: React.FC = () => {
               </tr>
             </thead>
             <TableBody>
-              {filteredData.slice(1).map((row, rowIndex) => (
+              {filteredData.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   {columns.map((col) => (
                     <TableCell key={col}>{row[col]}</TableCell>

@@ -5,7 +5,7 @@ import GoogleSheetsTable from "./GoogleSheetsTable";
 function App() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="flex justify-between w-full px-4 py-2 border border-red-950">
+      <div className="flex justify-between w-full px-4 py-2 ">
         <img src="/IGMC_LOGO.png" alt="IGMC Logo" className="w-100 h-32 " />
         <h1>Welcome to IGMC Mosque Finder</h1>
         <img

@@ -1,4 +1,3 @@
-//GoogleSheetsTable.tsx
 import React, { useEffect, useState } from "react";
 import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
@@ -100,7 +99,20 @@ const GoogleSheetsTable: React.FC = () => {
                 <TableRow key={rowIndex}>
                   {columns.map((col) => (
                     <TableCell key={col} className="border-r">
-                      {row[col]}
+                      {col === "completeAddress" ? (
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                            row[col]
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          {row[col]}
+                        </a>
+                      ) : (
+                        row[col]
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

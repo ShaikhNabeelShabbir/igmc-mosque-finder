@@ -1,3 +1,4 @@
+//fetchGoogleSheetJson.ts
 interface RowData {
   serialNumber: string;
   masjidName: string;
@@ -21,32 +22,18 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
     const data = await response.json();
 
     const rows: RowData[] = data.map((entry: any) => {
-      // Log each field to verify it exists in the data
-      console.log(
-        "Address:",
-        entry["Complete Adress (Location on Google Maps)"]
-      );
-      console.log(
-        "Timings Summer:",
-        entry["Timings Summer March 31 - October 31 Qutba Starts"]
-      );
-      console.log(
-        "Timings Winter:",
-        entry["Timings Winter October 31 - March 31 Qutba Starts"]
-      );
-
       return {
         serialNumber: entry["Serial Number"] || "",
         masjidName: entry["Masjid Name"] || "",
         district: entry["District (Bezirk)"] || "",
         languageOfQutbah: entry["Language of Qutbah"] || "",
         completeAddress:
-          entry["Complete Adress (Location on Google Maps)"] || "",
+          entry["Complete Address (Location on Google Maps)"] || "",
         telefon: entry["Telefon"] || "",
         timingsSummer:
-          entry["Timings Summer March 31 - October 31 Qutba Starts"] || "",
+          entry["Timings Summer (March 31 - October 31, Qutbah Starts)"] || "",
         timingsWinter:
-          entry["Timings Winter October 31 - March 31 Qutba Starts"] || "",
+          entry["Timings Winter (October 31 - March 31, Qutbah Starts)"] || "",
         womensArea: entry["Women's Area Availability"] || "",
         lastUpdated: entry["Last Updated"] || "",
         iftarProvided: entry["Iftar provided in Ramadan"] || "",

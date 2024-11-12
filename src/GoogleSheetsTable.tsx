@@ -1,3 +1,4 @@
+//GoogleSheetsTable.tsx
 import React, { useEffect, useState } from "react";
 import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";

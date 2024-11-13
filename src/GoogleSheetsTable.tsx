@@ -3,6 +3,7 @@ import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 import "./index.css";
+import GoogleMaps from "./GoogleMaps";
 
 interface RowData {
   serialNumber: string;
@@ -123,6 +124,9 @@ const GoogleSheetsTable: React.FC = () => {
       ) : (
         <p>No data found for your search term.</p>
       )}
+      <div>
+        <GoogleMaps />
+      </div>
     </div>
   );
 };

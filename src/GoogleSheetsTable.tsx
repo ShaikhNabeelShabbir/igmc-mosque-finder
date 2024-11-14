@@ -33,8 +33,8 @@ const GoogleSheetsTable: React.FC = () => {
       try {
         const sheetData = await fetchGoogleSheetJson();
         setFullData(sheetData);
-        setData(sheetData.slice(1));
-        setFilteredData(sheetData.slice(1));
+        setData(sheetData.slice(0));
+        setFilteredData(sheetData.slice(0));
       } catch (err) {
         setError("Failed to load data. Please try again later.");
       } finally {

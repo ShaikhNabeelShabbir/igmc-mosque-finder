@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
+import { geocode } from "./geocode";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 import "./index.css";
@@ -31,7 +31,7 @@ const GoogleSheetsTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sheetData = await fetchGoogleSheetJson();
+        const sheetData = await geocode();
         setFullData(sheetData);
         setData(sheetData.slice(0));
         setFilteredData(sheetData.slice(0));

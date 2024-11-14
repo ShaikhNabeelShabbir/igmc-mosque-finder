@@ -1,4 +1,7 @@
 //goolemaps
+import { fetchGeolocationOSM } from "./geocode";
+import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
+
 const GoogleMaps = () => {
   return (
     <div>

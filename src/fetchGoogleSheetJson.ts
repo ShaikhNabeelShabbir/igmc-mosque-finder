@@ -1,5 +1,6 @@
-//fetchGoogleSheetJson.ts
-interface RowData {
+import { fetchGeolocationOSM } from "./geocode";
+
+export interface RowData {
   serialNumber: string;
   masjidName: string;
   district: string;
@@ -12,6 +13,8 @@ interface RowData {
   lastUpdated: string;
   iftarProvided: string;
   taraweehTimings: string;
+  latitude?: number; // Optional latitude field
+  longitude?: number; // Optional longitude field
 }
 
 export async function fetchGoogleSheetJson(): Promise<RowData[]> {
@@ -21,14 +24,22 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
     const response = await fetch(jsonUrl);
     const data = await response.json();
 
-    const rows: RowData[] = data.map((entry: any) => {
-      return {
+    const rows: RowData[] = [];
+
+    for (const entry of data) {
+      const completeAddress =
+        entry["Complete Address (Location on Google Maps)"] || "";
+
+      const geolocation = completeAddress
+        ? await fetchGeolocationOSM(completeAddress)
+        : null;
+
+      rows.push({
         serialNumber: entry["Serial Number"] || "",
         masjidName: entry["Masjid Name"] || "",
         district: entry["District (Bezirk)"] || "",
         languageOfQutbah: entry["Language of Qutbah"] || "",
-        completeAddress:
-          entry["Complete Address (Location on Google Maps)"] || "",
+        completeAddress: completeAddress,
         telefon: entry["Telefon"] || "",
         timingsSummer:
           entry["Timings Summer (March 31 - October 31, Qutbah Starts)"] || "",
@@ -38,8 +49,10 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
         lastUpdated: entry["Last Updated"] || "",
         iftarProvided: entry["Iftar provided in Ramadan"] || "",
         taraweehTimings: entry["Taraweeh Timings"] || "",
-      };
-    });
+        // latitude: geolocation ? geolocation.lat : undefined,
+        // longitude: geolocation ? geolocation.lng : undefined,
+      });
+    }
 
     return rows;
   } catch (error) {

@@ -1,6 +1,6 @@
 //
 import React, { useEffect, useState } from "react";
-import { geocode } from "./geocode";
+import { fetchGoogleSheetJson } from "./fetchGoogleSheetJson";
 import { Table, TableBody, TableCell, TableRow } from "./components/ui/table";
 import { SearchIcon } from "lucide-react";
 import "./index.css";
@@ -32,7 +32,7 @@ const GoogleSheetsTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sheetData = await geocode();
+        const sheetData = await fetchGoogleSheetJson();
         setFullData(sheetData);
         setData(sheetData.slice(0));
         setFilteredData(sheetData.slice(0));
@@ -63,7 +63,7 @@ const GoogleSheetsTable: React.FC = () => {
     data.length > 0 ? (Object.keys(data[0]) as Array<keyof RowData>) : [];
 
   return (
-    <div>
+    <div className="w-fit">
       <div className="my-8 w-96 mx-auto flex items-center relative">
         <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />
         <input

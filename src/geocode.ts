@@ -1,4 +1,4 @@
-interface RowData {
+export interface RowData {
   serialNumber: string;
   masjidName: string;
   district: string;
@@ -47,8 +47,8 @@ export async function geocode(): Promise<RowData[]> {
         lastUpdated: entry["Last Updated"] || "",
         iftarProvided: entry["Iftar provided in Ramadan"] || "",
         taraweehTimings: entry["Taraweeh Timings"] || "",
-        // latitude: geolocation ? geolocation.lat : undefined,
-        // longitude: geolocation ? geolocation.lng : undefined,
+        latitude: geolocation ? geolocation.lat : undefined,
+        longitude: geolocation ? geolocation.lng : undefined,
       });
     }
 

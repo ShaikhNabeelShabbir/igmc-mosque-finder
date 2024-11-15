@@ -63,8 +63,8 @@ const GoogleSheetsTable: React.FC = () => {
     data.length > 0 ? (Object.keys(data[0]) as Array<keyof RowData>) : [];
 
   return (
-    <div className="w-fit">
-      <div className="my-8 w-96 mx-auto flex items-center relative">
+    <div className="max-w-[375px] p-5 overflow-auto flex flex-col gap-5 sm:min-w-full">
+      <div className="w-full flex items-center relative">
         <SearchIcon className="absolute left-3 text-gray-500 w-5 h-5" />
         <input
           type="text"
@@ -74,7 +74,6 @@ const GoogleSheetsTable: React.FC = () => {
           className="border p-2 pl-10 w-full bg-white"
         />
       </div>
-
       {loading ? (
         <div className="lds-ring">
           <div></div>
@@ -85,7 +84,7 @@ const GoogleSheetsTable: React.FC = () => {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : filteredData.length > 0 ? (
-        <div className="table-wrapper">
+        <div className="w-full max-h-[500px] overflow-scroll md:min-h-[600px]">
           <Table className="border">
             <thead>
               <tr>

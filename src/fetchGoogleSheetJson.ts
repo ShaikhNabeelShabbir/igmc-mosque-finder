@@ -1,5 +1,3 @@
-import { fetchGeolocationOSM } from "./geocode";
-
 export interface RowData {
   serialNumber: string;
   masjidName: string;
@@ -30,10 +28,6 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
       const completeAddress =
         entry["Complete Address (Location on Google Maps)"] || "";
 
-      const geolocation = completeAddress
-        ? await fetchGeolocationOSM(completeAddress)
-        : null;
-
       rows.push({
         serialNumber: entry["Serial Number"] || "",
         masjidName: entry["Masjid Name"] || "",
@@ -49,8 +43,8 @@ export async function fetchGoogleSheetJson(): Promise<RowData[]> {
         lastUpdated: entry["Last Updated"] || "",
         iftarProvided: entry["Iftar provided in Ramadan"] || "",
         taraweehTimings: entry["Taraweeh Timings"] || "",
-        // latitude: geolocation ? geolocation.lat : undefined,
-        // longitude: geolocation ? geolocation.lng : undefined,
+        //latitude: geolocation ? geolocation.lat : undefined,
+        //longitude: geolocation ? geolocation.lng : undefined,
       });
     }
 

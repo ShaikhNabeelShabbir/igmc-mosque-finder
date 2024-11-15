@@ -1,3 +1,4 @@
+//geocode.ts
 export async function fetchGeolocationOSM(
   address: string
 ): Promise<{ lat: number; lng: number } | null> {

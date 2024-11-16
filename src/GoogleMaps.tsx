@@ -50,7 +50,7 @@ const GoogleMaps = () => {
   }, []);
 
   return (
-    <div className="flex justify-center mx-[] mt-5 w-96 h-96 border border-purple-600">
+    <div className="flex justify-center mx-96 mt-5 w-96 h-96 border border-purple-600">
       <MapContainer
         center={[53.457894098699, 9.982964368568535]}
         zoom={5}

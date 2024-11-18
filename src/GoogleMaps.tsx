@@ -50,22 +50,24 @@ const GoogleMaps = () => {
   }, []);
 
   return (
-    <div className="flex justify-center mx-96 mt-5 w-96 h-96 border border-purple-600">
-      <MapContainer
-        center={[53.457894098699, 9.982964368568535]}
-        zoom={5}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {locations.map((location, index) => (
-          <Marker key={index} position={[location.lat, location.lng]}>
-            <Popup>{location.name}</Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+    <div className="flex justify-center items-center mt-5 w-full h-96">
+      <div className="w-1/2 h-full border border-purple-600">
+        <MapContainer
+          center={[53.457894098699, 9.982964368568535]}
+          zoom={5}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {locations.map((location, index) => (
+            <Marker key={index} position={[location.lat, location.lng]}>
+              <Popup>{location.name}</Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 };

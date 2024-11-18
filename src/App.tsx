@@ -16,12 +16,20 @@ function App() {
       </div>
       <div className="mt-5">
         <p className="text-center font-bold text-xl">
-          O mankind, indeed We have created you from male and female and made
-          you peoples and tribes that you may know one another. Indeed, the most
-          noble of you in the sight of Allah is the most righteous of you.
-          Indeed, Allah is Knowing and Acquainted. <br></br> (Q.S. Al-Hujurat :
-          13)
+          فَإِذَا قَضَيْتُمُ ٱلصَّلَوٰةَ فَٱذْكُرُوا۟ ٱللَّهَ قِيَٰمًا
+          وَقُعُودًا وَعَلَىٰ جُنُوبِكُمْۚ فَإِذَا ٱطْمَأْنَنتُمْ فَأَقِيمُوا۟
+          ٱلصَّلَوٰةَۚ إِنَّ ٱلصَّلَوٰةَ كَانَتْ عَلَى ٱلْمُؤْمِنِينَ كِتَٰبًا
+          مَّوْقُوتًا
+          <br></br> (An-Nisa' 4:103)
         </p>
+        When you have finished As-Salât (the congregational prayer), remember
+        Allâh standing, sitting down,
+        <br />
+        and (lying down) on your sides, but when you are free from danger,
+        perform As-Salât (Iqamat-as-Salât). <br />
+        Verily, As-Salât (the prayer) is enjoined on the believers at fixed
+        hours.
+        <br />( English - Tafsir Ibn Kathir ){" "}
       </div>
       <div>
         <GoogleSheetsTable />
